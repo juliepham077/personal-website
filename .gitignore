@@ -1,0 +1,4 @@
+*.zip
+_claude-working/
+.vercel/
+node_modules/
