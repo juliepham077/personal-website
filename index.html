@@ -103,6 +103,10 @@ section.block{padding-block:clamp(48px,7vw,88px)}
 .fact .v{font-weight:600}
 .interests{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .chip{font-size:.85rem;padding:5px 12px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.chip-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+.chip-link span{color:var(--accent);transition:transform .15s}
+.chip-link:hover{border-color:var(--accent);background:var(--accent-soft)}
+.chip-link:hover span{transform:translateX(3px)}
 
 /* experience */
 .timeline{display:flex;flex-direction:column}
@@ -336,7 +340,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
       <div class="copy">
         <p>I'm a third-year student in the Math/BBA Double Degree program, majoring in Statistics at Waterloo with a Finance specialization at Laurier. I like problems where numbers lead to real decisions: pricing, risk, and figuring out what the data is actually saying.</p>
         <p>I've worked in a financial advisory office during tax season, consulted on AI tools for a tech company, and built financial models on my own time. Next, I'm building my Python and SQL skills and working toward quant roles.</p>
-        <p>Outside of school I play tennis, volleyball and softball, I'm training for my first half marathon, and I've spent years as a lifeguard and swim instructor.</p>
+        <p>Outside of school I play tennis and volleyball, I'm training for my first half marathon, and I've spent years as a lifeguard and swim instructor.</p>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:16px">
@@ -348,9 +352,9 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
         <div class="fact"><span class="k">Certified</span><span class="v">Azure AZ-900, AI-900</span></div>
         <div class="fact"><span class="k">Next co-op</span><span class="v">Winter 2027</span></div>
       </div>
-      <div class="interests" aria-label="Interests">
-        <span class="chip">Tennis</span><span class="chip">Running</span><span class="chip">Volleyball</span><span class="chip">Softball</span><span class="chip">Swimming</span><span class="chip">Travel</span>
-      </div>
+      <nav class="interests" aria-label="Things I love">
+        <a class="chip-link" href="#fun">Tennis <span aria-hidden="true">&rarr;</span></a><a class="chip-link" href="#fun">Volleyball <span aria-hidden="true">&rarr;</span></a><a class="chip-link" href="#fun">Running <span aria-hidden="true">&rarr;</span></a><a class="chip-link" href="#fun">Skiing <span aria-hidden="true">&rarr;</span></a><a class="chip-link" href="#travel">Travel <span aria-hidden="true">&rarr;</span></a>
+      </nav>
     </div>
   </div>
 </section>
@@ -378,7 +382,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
           <div class="org">Innoventix Solutions &middot; Waterloo, ON</div>
           <ul>
             <li>Researched and evaluated AI tools to improve app development processes and business workflows.</li>
-            <li>Recommended practical solutions to improve efficiency, productivity and decision-making.</li>
+            <li>Recommended practical solutions to improve efficiency, productivity, and decision-making.</li>
             <li>Earned Microsoft <strong>AZ-900</strong> and <strong>AI-900</strong> certifications.</li>
           </ul>
         </div>
@@ -390,7 +394,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
           <div class="org">YMCA Stoney Creek &amp; UWaterloo PAC Pool &middot; London and Waterloo, ON</div>
           <ul>
             <li>Taught private and group lessons across skill levels, adapting to each swimmer's goals.</li>
-            <li>Assessed swimmers, wrote progress reports and kept families updated.</li>
+            <li>Assessed swimmers, wrote progress reports, and kept families updated.</li>
             <li>Ran routine pool chemistry and safety checks.</li>
           </ul>
         </div>
@@ -411,7 +415,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
       <div>
         <span class="eyebrow">Corporate finance case study &middot; 2026</span>
         <h3>Aritzia Financial Analysis</h3>
-        <p>I analyzed Aritzia's FY2024 to FY2026 financial statements in Excel, calculated liquidity, profitability and solvency ratios, and built an FY2027 income statement forecast from management's July 2026 guidance with base, downside and upside scenarios.</p>
+        <p>I analyzed Aritzia's FY2024 to FY2026 financial statements in Excel, calculated liquidity, profitability, and solvency ratios, and built an FY2027 income statement forecast from management's July 2026 guidance with base, downside, and upside scenarios.</p>
         <div class="metrics">
           <div class="metric"><div class="n">6.8% &rarr; 14.2%</div><div class="d">Operating margin, FY2024 to FY2026</div></div>
           <div class="metric"><div class="n">$438M&ndash;$581M</div><div class="d">FY2027 net income range across 3 scenarios (CAD)</div></div>
@@ -480,7 +484,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
     <div class="bars" id="monkeyBars" aria-hidden="true"><span class="rail"></span><span class="rungs"></span><span class="post l"></span><span class="post r"></span></div>
     <div class="fun-hero">
       <h1>the fun<br>page</h1>
-      <p>sports, snacks, nights out and everything in between</p>
+      <p>sports, snacks, nights out, and everything in between</p>
       <span class="sticker s1">no spreadsheets here</span>
       <span class="sticker s2">off the clock</span>
     </div>
@@ -503,15 +507,15 @@ const HOME = {name:"Waterloo, ON", c:[-80.52,43.46]};
 const TRIPS = [
   {id:"west26", photos:["photos/travel/west26/01.jpg", "photos/travel/west26/02.jpg", "photos/travel/west26/03.jpg", "photos/travel/west26/04.jpg", "photos/travel/west26/05.jpg", "photos/travel/west26/06.jpg", "photos/travel/west26/07.jpg", "photos/travel/west26/08.jpg"], code:"WY·HI", name:"WY → CA → HI", year:"2026", note:"A family trip through the American West, from geysers in Wyoming to the California coast, ending on Kauai.",
    stops:[{n:"Salt Lake City",c:[-111.89,40.76]},{n:"Grand Teton",c:[-110.68,43.79]},{n:"Yellowstone",c:[-110.59,44.43]},{n:"San Francisco",c:[-122.42,37.77]},{n:"Yosemite",c:[-119.59,37.75]},{n:"Kauai",c:[-159.50,22.07]}]},
-  {id:"tik26", photos:["photos/travel/tik26/01.jpg", "photos/travel/tik26/02.jpg", "photos/travel/tik26/03.jpg", "photos/travel/tik26/04.jpg", "photos/travel/tik26/05.jpg", "photos/travel/tik26/06.jpg", "photos/travel/tik26/07.jpg", "photos/travel/tik26/08.jpg"], code:"YGK", name:"1000 Islands", year:"2026", note:"Lake days, paddleboarding, sunsets and fireworks.", stops:[{n:"1000 Islands",c:[-76.16,44.33]}]},
+  {id:"tik26", photos:["photos/travel/tik26/01.jpg", "photos/travel/tik26/02.jpg", "photos/travel/tik26/03.jpg", "photos/travel/tik26/04.jpg", "photos/travel/tik26/05.jpg", "photos/travel/tik26/06.jpg", "photos/travel/tik26/07.jpg", "photos/travel/tik26/08.jpg"], code:"YGK", name:"1000 Islands", year:"2026", note:"Lake days, paddleboarding, sunsets, and fireworks.", stops:[{n:"1000 Islands",c:[-76.16,44.33]}]},
   {id:"fl25", photos:["photos/travel/fl25/01.jpg", "photos/travel/fl25/02.jpg", "photos/travel/fl25/03.jpg", "photos/travel/fl25/04.jpg", "photos/travel/fl25/05.jpg", "photos/travel/fl25/06.jpg", "photos/travel/fl25/07.jpg", "photos/travel/fl25/08.jpg"], code:"MIA", name:"Florida & cruise", year:"2025", note:"Miami and a Christmas cruise in the Caribbean.", stops:[{n:"Florida",c:[-80.19,25.76]}]},
   {id:"puj25", photos:["photos/travel/puj25/01.jpg", "photos/travel/puj25/02.jpg", "photos/travel/puj25/03.jpg", "photos/travel/puj25/04.jpg", "photos/travel/puj25/05.jpg", "photos/travel/puj25/06.jpg"], code:"PUJ", name:"Punta Cana", year:"2025", note:"Beaches in the Dominican Republic.", stops:[{n:"Punta Cana",c:[-68.40,18.58]}]},
-  {id:"gc25", photos:["photos/travel/gc25/01.jpg", "photos/travel/gc25/02.jpg", "photos/travel/gc25/03.jpg", "photos/travel/gc25/04.jpg", "photos/travel/gc25/05.jpg", "photos/travel/gc25/06.jpg", "photos/travel/gc25/07.jpg", "photos/travel/gc25/08.jpg"], code:"GCN", name:"Grand Canyon & Zion", year:"2025", note:"The Grand Canyon, Horseshoe Bend, Antelope Canyon and hiking the Narrows in Zion.", stops:[{n:"Grand Canyon",c:[-112.11,36.06]},{n:"Horseshoe Bend",c:[-111.51,36.88]},{n:"Antelope Canyon",c:[-111.37,36.86]},{n:"Zion",c:[-113.03,37.30]}]},
-  {id:"nyc25", photos:["photos/travel/nyc25/01.jpg", "photos/travel/nyc25/02.jpg", "photos/travel/nyc25/03.jpg", "photos/travel/nyc25/04.jpg", "photos/travel/nyc25/05.jpg", "photos/travel/nyc25/06.jpg", "photos/travel/nyc25/07.jpg", "photos/travel/nyc25/08.jpg"], code:"JFK", name:"New York City", year:"2025", note:"Top of the Rock, Grand Central, cherry blossoms and Wall Street.", stops:[{n:"New York City",c:[-74.01,40.71]}]},
-  {id:"hi24", photos:["photos/travel/oahu24/01.jpg", "photos/travel/oahu24/02.jpg", "photos/travel/oahu24/03.jpg", "photos/travel/oahu24/04.jpg", "photos/travel/oahu24/05.jpg", "photos/travel/oahu24/06.jpg", "photos/travel/oahu24/07.jpg", "photos/travel/oahu24/08.jpg"], code:"HNL", name:"Oahu, Hawaii", year:"2024", note:"My first trip to Hawaii: beaches, hikes, waterfalls and snorkelling on Oahu.", stops:[{n:"Oahu",c:[-157.86,21.31]}]},
-  {id:"jp23", photos:["photos/travel/japan23/01.jpg", "photos/travel/japan23/02.jpg", "photos/travel/japan23/03.jpg", "photos/travel/japan23/04.jpg", "photos/travel/japan23/05.jpg", "photos/travel/japan23/06.jpg", "photos/travel/japan23/07.jpg", "photos/travel/japan23/08.jpg"], code:"NRT", name:"Japan", year:"2023", note:"Tokyo, Kyoto, Osaka and feeding the deer in Nara.", stops:[{n:"Japan",c:[139.69,35.69]}]},
+  {id:"gc25", photos:["photos/travel/gc25/01.jpg", "photos/travel/gc25/02.jpg", "photos/travel/gc25/03.jpg", "photos/travel/gc25/04.jpg", "photos/travel/gc25/05.jpg", "photos/travel/gc25/06.jpg", "photos/travel/gc25/07.jpg", "photos/travel/gc25/08.jpg"], code:"GCN", name:"Grand Canyon & Zion", year:"2025", note:"The Grand Canyon, Horseshoe Bend, Antelope Canyon, and hiking the Narrows in Zion.", stops:[{n:"Grand Canyon",c:[-112.11,36.06]},{n:"Horseshoe Bend",c:[-111.51,36.88]},{n:"Antelope Canyon",c:[-111.37,36.86]},{n:"Zion",c:[-113.03,37.30]}]},
+  {id:"nyc25", photos:["photos/travel/nyc25/01.jpg", "photos/travel/nyc25/02.jpg", "photos/travel/nyc25/03.jpg", "photos/travel/nyc25/04.jpg", "photos/travel/nyc25/05.jpg", "photos/travel/nyc25/06.jpg", "photos/travel/nyc25/07.jpg", "photos/travel/nyc25/08.jpg"], code:"JFK", name:"New York City", year:"2025", note:"Top of the Rock, Grand Central, cherry blossoms, and Wall Street.", stops:[{n:"New York City",c:[-74.01,40.71]}]},
+  {id:"hi24", photos:["photos/travel/oahu24/01.jpg", "photos/travel/oahu24/02.jpg", "photos/travel/oahu24/03.jpg", "photos/travel/oahu24/04.jpg", "photos/travel/oahu24/05.jpg", "photos/travel/oahu24/06.jpg", "photos/travel/oahu24/07.jpg", "photos/travel/oahu24/08.jpg"], code:"HNL", name:"Oahu, Hawaii", year:"2024", note:"My first trip to Hawaii: beaches, hikes, waterfalls, and snorkelling on Oahu.", stops:[{n:"Oahu",c:[-157.86,21.31]}]},
+  {id:"jp23", photos:["photos/travel/japan23/01.jpg", "photos/travel/japan23/02.jpg", "photos/travel/japan23/03.jpg", "photos/travel/japan23/04.jpg", "photos/travel/japan23/05.jpg", "photos/travel/japan23/06.jpg", "photos/travel/japan23/07.jpg", "photos/travel/japan23/08.jpg"], code:"NRT", name:"Japan", year:"2023", note:"Tokyo, Kyoto, Osaka, and feeding the deer in Nara.", stops:[{n:"Japan",c:[139.69,35.69]}]},
   {id:"lv23", photos:["photos/travel/lv23/01.jpg", "photos/travel/lv23/02.jpg", "photos/travel/lv23/03.jpg", "photos/travel/lv23/04.jpg", "photos/travel/lv23/05.jpg", "photos/travel/lv23/06.jpg", "photos/travel/lv23/07.jpg", "photos/travel/lv23/08.jpg"], code:"LAS", name:"Las Vegas & Sedona", year:"2023–24", note:"The Las Vegas Strip and the red rocks of Sedona.", stops:[{n:"Las Vegas",c:[-115.14,36.17]},{n:"Sedona",c:[-111.76,34.87]}]},
-  {id:"vn22", photos:["photos/travel/vn22/01.jpg", "photos/travel/vn22/02.jpg", "photos/travel/vn22/03.jpg", "photos/travel/vn22/04.jpg", "photos/travel/vn22/05.jpg", "photos/travel/vn22/06.jpg", "photos/travel/vn22/07.jpg"], code:"SGN", name:"Vietnam", year:"2022", note:"Cycling, hammocks and the coast in Vietnam.", stops:[{n:"Vietnam",c:[106.70,10.78]}]}
+  {id:"vn22", photos:["photos/travel/vn22/01.jpg", "photos/travel/vn22/02.jpg", "photos/travel/vn22/03.jpg", "photos/travel/vn22/04.jpg", "photos/travel/vn22/05.jpg", "photos/travel/vn22/06.jpg", "photos/travel/vn22/07.jpg"], code:"SGN", name:"Vietnam", year:"2022", note:"Cycling, hammocks, and the coast in Vietnam.", stops:[{n:"Vietnam",c:[106.70,10.78]}]}
 ];
 
 /* ---------- margin chart (Aritzia, from my workbook) ---------- */
@@ -677,7 +681,7 @@ document.getElementById('copyBtn').addEventListener('click',e=>{
     lastInteract=performance.now();
   };
   canvas.addEventListener('pointerup',end); canvas.addEventListener('pointercancel',end);
-  function setZoom(z){zoom=Math.max(.8,Math.min(4,z));spinning=false;draw()}
+  function setZoom(z){zoom=Math.max(.8,Math.min(14,z));spinning=false;draw()}
   document.getElementById('zin').onclick=()=>setZoom(zoom*1.3);
   document.getElementById('zout').onclick=()=>setZoom(zoom/1.3);
   // scroll up = zoom in, scroll down = zoom out
