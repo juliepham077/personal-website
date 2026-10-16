@@ -892,8 +892,8 @@ document.addEventListener('click',e=>{
     const target=-climb.dir*0.38*Math.cos(2*Math.PI*climb.k);
     swingA+=(target-swingA)*Math.min(1,dt*8);
     const P=climbPose(); g.x=P.Hp[0]; g.y=P.Hp[1]; g.dir=P.d;
-    // after 7 seconds on the bars she lets go at the bottom of her next swing (at most ~1.5s later), wherever she is
-    if(t>DROP_AT&&climb.k>0.4&&climb.k<0.6){mode='fall';g.y=P.Hp[1]+26;g.vx=P.d*40;g.vy=-40;g.rot=0}
+    // after 7 seconds on the bars she lets go (with Reduce Motion on, she keeps climbing and only falls if someone drags her off) at the bottom of her next swing (at most ~1.5s later), wherever she is
+    if(!reduce&&t>DROP_AT&&climb.k>0.4&&climb.k<0.6){mode='fall';g.y=P.Hp[1]+26;g.vx=P.d*40;g.vy=-40;g.rot=0}
   }
   function drawHanging(S,Hp,hands,legA,d){
     const sc=p=>p;
