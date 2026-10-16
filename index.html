@@ -126,7 +126,8 @@ section.block{padding-block:clamp(48px,7vw,88px)}
 .project{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(20px,4vw,48px);background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,40px)}
 .project h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.02em;margin-block:8px 12px}
 .project p{color:var(--muted);max-width:56ch}
-.project .stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.project .stack{margin-top:18px;font-size:.92rem;color:var(--ink)}
+.project .stack-k{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:8px}
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
 .metric{border-top:2px solid var(--ink);padding-top:10px}
 .metric .n{font-family:var(--f-display);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -159,8 +160,8 @@ section.block{padding-block:clamp(48px,7vw,88px)}
 .detail h3{font-size:1.45rem;font-weight:700;letter-spacing:-.015em}
 .detail .yr{font-family:var(--f-mono);font-size:.85rem;color:var(--sun);white-space:nowrap}
 .detail p{color:var(--muted);font-size:.95rem}
-.stops{display:flex;flex-wrap:wrap;gap:6px}
-.stops span{font-size:.8rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line)}
+.stops{font-size:.88rem;line-height:1.6;color:var(--ink)}
+
 .trips{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto;padding-right:4px}
 .trip{width:100%;display:grid;grid-template-columns:58px 1fr auto;align-items:center;gap:12px;text-align:left;padding:10px 14px;border-radius:14px;border:1px dashed var(--line);background:transparent;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
 .trip:hover{border-color:var(--accent)}
@@ -420,7 +421,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
           <div class="metric"><div class="n">6.8% &rarr; 14.2%</div><div class="d">Operating margin, FY2024 to FY2026</div></div>
           <div class="metric"><div class="n">$438M&ndash;$581M</div><div class="d">FY2027 net income range across 3 scenarios (CAD)</div></div>
         </div>
-        <div class="stack"><span class="chip">Excel</span><span class="chip">Ratio analysis</span><span class="chip">Scenario forecasting</span></div>
+        <p class="stack"><span class="stack-k">Tools used</span> Excel &middot; Ratio analysis &middot; Scenario forecasting</p>
       </div>
       <div class="chart" aria-label="Chart of Aritzia margins">
         <span class="t">Margins are expanding</span>
@@ -639,7 +640,7 @@ document.getElementById('copyBtn').addEventListener('click',e=>{
     document.getElementById('dNote').textContent=t.note;
     const ph=document.getElementById('dPh');
     ph.outerHTML=snapHTML(t.photos&&t.photos.length?t.photos:[t.name+' · photo coming soon'],'ph',t.name).replace('<div class="ph','<div id="dPh" class="ph');
-    document.getElementById('dStops').innerHTML=t.stops.map(s=>'<span>'+s.n+'</span>').join('');
+    document.getElementById('dStops').textContent=t.stops.map(s=>s.n.replace(/ /g,'\u00a0')).join('\u00a0\u00a0\u00b7\u00a0 ');
     document.querySelectorAll('.trip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===id));
     lastInteract=performance.now();
     if(fly) flyTo(t); else draw();
