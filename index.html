@@ -211,8 +211,9 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
 .sticker{position:absolute;font-family:var(--f-pop);font-size:clamp(.85rem,1.8vw,1.05rem);padding:10px 16px;border-radius:999px;border:3px solid var(--inkp);box-shadow:3px 3px 0 var(--inkp);white-space:nowrap}
 .s1{right:4%;top:6%;background:var(--bubble);color:#fff;transform:rotate(8deg)}
 .s2{right:16%;bottom:-6%;background:var(--mint);transform:rotate(-6deg)}
-.board{columns:3 280px;column-gap:22px}
-.card{break-inside:avoid;margin:0 0 22px;background:var(--paper);border:3px solid var(--inkp);border-radius:18px;box-shadow:6px 6px 0 var(--inkp);padding:14px;position:relative;display:flex;flex-direction:column;gap:10px;transition:transform .2s}
+.board{display:flex;gap:22px;align-items:flex-start}
+.board-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:26px}
+.card{margin:0;background:var(--paper);border:3px solid var(--inkp);border-radius:18px;box-shadow:6px 6px 0 var(--inkp);padding:14px;position:relative;display:flex;flex-direction:column;gap:10px;transition:transform .2s}
 .card:nth-child(3n+1){transform:rotate(-1.2deg)}.card:nth-child(3n+2){transform:rotate(1deg)}.card:nth-child(3n){transform:rotate(-.4deg)}
 .card:hover{transform:rotate(0) translateY(-4px)}
 @media (prefers-reduced-motion:reduce){.card{transition:none}}
@@ -261,6 +262,10 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
 .reel-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
 .reel{background:var(--inkp);border:3px solid var(--inkp);border-radius:18px;box-shadow:6px 6px 0 var(--lemon);overflow:hidden;display:flex;flex-direction:column}
 .reel video,.reel .vph{width:100%;aspect-ratio:9/16;display:block;background:#000;object-fit:cover}
+@media (min-width:900px){ /* wide screens: the three videos span the full width, lined up with the cards */
+  .reel-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .reel video,.reel .vph{aspect-ratio:auto;height:min(560px,64vh)}
+}
 .reel .vph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(165deg,var(--grape),var(--bubble) 70%,var(--tang));color:#fff;font-family:var(--f-hand);font-size:1.4rem;text-align:center;padding:16px}
 .reel .play{width:64px;height:64px;border-radius:50%;background:var(--lemon);border:3px solid var(--inkp);display:grid;place-items:center}
 .reel .play::after{content:"";border-left:20px solid var(--inkp);border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
@@ -783,7 +788,22 @@ document.addEventListener('click',e=>{
     `<div class="card c-lemon"><span class="lbl c-bubble">comfort movies</span><ul class="list"><li><b>1</b>She's the Man</li><li><b>2</b>The Parent Trap</li><li><b>3</b>Matilda</li><li><b>4</b>Frozen</li></ul><p class="hand">taking recommendations</p></div>`,
     `<div class="card c-bubble"><span class="lbl c-lemon">where next?</span><h3 style="color:#fff">See all my trips</h3><a class="pill-btn" href="#travel">Open my globe &rarr;</a></div>`
   ];
-  document.getElementById('funBoard').innerHTML=cards.join('');
+  const board=document.getElementById('funBoard');
+  board.innerHTML=cards.join('');
+  const cardEls=[...board.children];
+  // balanced masonry: each card goes into whichever column is shortest, so the columns end at about the same height
+  function layoutBoard(force){
+    const w=board.clientWidth||board.parentElement.clientWidth; if(!w) return;
+    const n=w>=880?3:w>=540?2:1;
+    if(!force&&+board.dataset.n===n) return; board.dataset.n=n;
+    const cols=[...Array(n)].map(()=>{const c=document.createElement('div');c.className='board-col';return c});
+    board.replaceChildren(...cols);
+    cardEls.forEach(el=>{let best=cols[0];cols.forEach(c=>{if(c.offsetHeight<best.offsetHeight)best=c});best.appendChild(el)});
+  }
+  window.__layoutBoard=layoutBoard;
+  let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>layoutBoard(false),120)});
+  document.fonts&&document.fonts.ready.then(()=>layoutBoard(true));
+  layoutBoard(true);
 
   // Duolingo streak. On her own Vercel site, /api/duolingo returns the live streak.
   // Anywhere else it counts up from 373 on Oct 11, 2026.
@@ -804,7 +824,7 @@ document.addEventListener('click',e=>{
   const ctx=cv.getContext('2d');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const C={ink:'#1E1433',skin:'#F2C9A5',top:'#FF5FA2',shorts:'#2EB6F0',paper:'#FFFDF7'};
-  const GRAV=1050, DROP_AT=12, SPACING=52, CYCLE=1.45, ARM=30, TORSO=26, LEG=28;
+  const GRAV=1050, DROP_AT=5, SPACING=52, CYCLE=1.45, ARM=30, TORSO=26, LEG=28;
   let W=0,H=0,dpr=1, mode='hang', t=0, last=0, active=false;
   // all positions are PAGE coordinates (x, y from the top of the document)
   let g={x:0,y:0,vx:0,vy:0,rot:0,dir:1};
@@ -872,10 +892,8 @@ document.addEventListener('click',e=>{
     const target=-climb.dir*0.38*Math.cos(2*Math.PI*climb.k);
     swingA+=(target-swingA)*Math.min(1,dt*8);
     const P=climbPose(); g.x=P.Hp[0]; g.y=P.Hp[1]; g.dir=P.d;
-    if(!reduce&&t>DROP_AT&&climb.k>0.45&&climb.k<0.55){
-      const below=paneList().some(el=>{const r=el.getBoundingClientRect();return r.top+scrollY>g.y+60&&g.x>r.left+50&&g.x<r.right-50});
-      if(below||t>DROP_AT+10){mode='fall';g.y=P.Hp[1]+26;g.vx=P.d*40;g.vy=-40;g.rot=0}
-    }
+    // after 5 seconds on the bars she lets go at the bottom of her next swing (at most ~1.5s later), wherever she is
+    if(!reduce&&t>DROP_AT&&climb.k>0.4&&climb.k<0.6){mode='fall';g.y=P.Hp[1]+26;g.vx=P.d*40;g.vy=-40;g.rot=0}
   }
   function drawHanging(S,Hp,hands,legA,d){
     const sc=p=>p;
@@ -1044,6 +1062,7 @@ document.addEventListener('click',e=>{
     const changed = views[page].hidden;
     Object.entries(views).forEach(([k,v])=>v.hidden=k!==page);
     document.body.classList.toggle('fun',page==='fun');
+    if(page==='fun'&&window.__layoutBoard) window.__layoutBoard(true);
     document.querySelectorAll('.nav a.tab').forEach(a=>{if(a.dataset.page===page) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current')});
     if(page!=='home'){ if(changed) window.scrollTo(0,0) }
     else if(h && h!=='top'){ const t=document.getElementById(h); if(t) requestAnimationFrame(()=>t.scrollIntoView()) }
