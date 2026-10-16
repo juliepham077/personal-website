@@ -824,7 +824,7 @@ document.addEventListener('click',e=>{
   const ctx=cv.getContext('2d');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const C={ink:'#1E1433',skin:'#F2C9A5',top:'#FF5FA2',shorts:'#2EB6F0',paper:'#FFFDF7'};
-  const GRAV=1050, DROP_AT=5, SPACING=52, CYCLE=1.45, ARM=30, TORSO=26, LEG=28;
+  const GRAV=1050, DROP_AT=7, SPACING=52, CYCLE=1.45, ARM=30, TORSO=26, LEG=28;
   let W=0,H=0,dpr=1, mode='hang', t=0, last=0, active=false;
   // all positions are PAGE coordinates (x, y from the top of the document)
   let g={x:0,y:0,vx:0,vy:0,rot:0,dir:1};
@@ -892,7 +892,7 @@ document.addEventListener('click',e=>{
     const target=-climb.dir*0.38*Math.cos(2*Math.PI*climb.k);
     swingA+=(target-swingA)*Math.min(1,dt*8);
     const P=climbPose(); g.x=P.Hp[0]; g.y=P.Hp[1]; g.dir=P.d;
-    // after 5 seconds on the bars she lets go at the bottom of her next swing (at most ~1.5s later), wherever she is
+    // after 7 seconds on the bars she lets go at the bottom of her next swing (at most ~1.5s later), wherever she is
     if(t>DROP_AT&&climb.k>0.4&&climb.k<0.6){mode='fall';g.y=P.Hp[1]+26;g.vx=P.d*40;g.vy=-40;g.rot=0}
   }
   function drawHanging(S,Hp,hands,legA,d){
