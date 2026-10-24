@@ -123,6 +123,8 @@ section.block{padding-block:clamp(48px,7vw,88px)}
 .extra ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
 
 /* project */
+.projects{display:grid;gap:clamp(16px,3vw,28px)}
+.proj-links{margin-top:20px}
 .project{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(20px,4vw,48px);background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,40px)}
 .project h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.02em;margin-block:8px 12px}
 .project p{color:var(--muted);max-width:56ch}
@@ -416,7 +418,26 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
 
 <section class="block alt" id="projects">
   <div class="wrap">
-    <div class="head"><span class="eyebrow">Projects</span><h2>Featured project</h2></div>
+    <div class="head"><span class="eyebrow">Projects</span><h2>Featured projects</h2></div>
+    <div class="projects">
+    <article class="project">
+      <div>
+        <span class="eyebrow">Quantitative finance &middot; 2026</span>
+        <h3>Monte Carlo Option Pricer</h3>
+        <p>I built an option pricer in R that prices options two ways: with the Black-Scholes formula and by simulating thousands of possible stock price paths. I used the formula as an answer key to show the simulation converges, then used the simulator on Asian options, which have no simple formula.</p>
+        <div class="metrics">
+          <div class="metric"><div class="n">0.15%</div><div class="d">From the exact Black-Scholes price at 1M simulated paths</div></div>
+          <div class="metric"><div class="n">2&times;</div><div class="d">Less variance using antithetic variates</div></div>
+        </div>
+        <p class="stack"><span class="stack-k">Tools used</span> R &middot; Monte Carlo simulation &middot; Statistics</p>
+        <p class="proj-links"><a class="btn" href="https://github.com/juliepham077/option-pricer" target="_blank" rel="noopener">View code on GitHub &nearr;</a></p>
+      </div>
+      <div class="chart" aria-label="Chart of Monte Carlo convergence">
+        <span class="t">Simulation converges to the formula</span>
+        <span class="s">Monte Carlo call price with 95% confidence interval, by number of paths</span>
+        <svg id="mcChart" viewBox="0 0 360 230" role="img" aria-label="Monte Carlo estimates narrow from a wide interval at 100 paths to within 0.15 percent of the Black-Scholes price of 10.45 dollars at one million paths"></svg>
+      </div>
+    </article>
     <article class="project">
       <div>
         <span class="eyebrow">Corporate finance case study &middot; 2026</span>
@@ -434,6 +455,7 @@ body.fun footer{background:#1E1433;color:#FFE14D;border-color:#1E1433}
         <svg id="marginChart" viewBox="0 0 360 230" role="img" aria-label="Gross margin rose from 38.5% to 44.9% and operating margin from 6.8% to 14.2% between FY2024 and FY2026"></svg>
       </div>
     </article>
+    </div>
   </div>
 </section>
 
@@ -539,6 +561,25 @@ const TRIPS = [
     s.v.forEach((v,i)=>{el('circle',{cx:x(i),cy:y(v),r:i===2?5:3.5,fill:i===2?col:'var(--surface)',stroke:col,'stroke-width':2})});
     el('text',{x:x(2)+10,y:y(s.v[2])+4,'font-size':12,fill:'var(--ink)','font-weight':600,'font-family':'Figtree, sans-serif'},s.v[2].toFixed(1)+'%');
     el('text',{x:x(0)-4,y:y(s.v[0])-12,'font-size':11,fill:col,'font-family':'Figtree, sans-serif'},s.k);
+  });
+})();
+
+/* ---------- Monte Carlo convergence chart (from results.txt, seed 42) ---------- */
+(function(){
+  const svg=document.getElementById('mcChart'); const NS='http://www.w3.org/2000/svg';
+  const runs=[[100,11.10,8.378,13.83],[316,9.29,7.749,10.83],[1000,10.05,9.144,10.95],[3162,10.45,9.935,10.97],[10000,10.36,10.076,10.65],[31623,10.57,10.408,10.73],[100000,10.39,10.303,10.48],[316228,10.44,10.394,10.50],[1000000,10.47,10.437,10.50]];
+  const BS=10.4506, L=40,R=340,T=20,B=190, y=v=>B-(v-7.5)/(14.5-7.5)*(B-T), x=n=>L+14+(Math.log10(n)-2)/4*(R-L-28);
+  const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;svg.appendChild(e);return e};
+  const mono={'font-size':11,fill:'var(--muted)','font-family':'DM Mono, monospace'};
+  [8,10,12,14].forEach(g=>{el('line',{x1:L,x2:R,y1:y(g),y2:y(g),stroke:'var(--line)','stroke-width':1});el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',...mono},'$'+g)});
+  [[100,'100'],[1000,'1k'],[10000,'10k'],[100000,'100k'],[1000000,'1M']].forEach(([n,t])=>el('text',{x:x(n),y:B+20,'text-anchor':'middle',...mono},t));
+  el('line',{x1:L,x2:R,y1:y(BS),y2:y(BS),stroke:'var(--sun)','stroke-width':2,'stroke-dasharray':'6 4'});
+  el('line',{x1:R-150,x2:R-128,y1:T+6,y2:T+6,stroke:'var(--sun)','stroke-width':2,'stroke-dasharray':'6 4'});
+  el('text',{x:R-122,y:T+10,'font-size':11,fill:'var(--ink)','font-weight':600,'font-family':'Figtree, sans-serif'},'Black-Scholes $10.45');
+  runs.forEach(([n,p,lo,hi],i)=>{
+    el('line',{x1:x(n),x2:x(n),y1:y(lo),y2:y(hi),stroke:'var(--accent)','stroke-width':1.5});
+    [lo,hi].forEach(v=>el('line',{x1:x(n)-4,x2:x(n)+4,y1:y(v),y2:y(v),stroke:'var(--accent)','stroke-width':1.5}));
+    el('circle',{cx:x(n),cy:y(p),r:i===runs.length-1?5:3.5,fill:i===runs.length-1?'var(--accent)':'var(--surface)',stroke:'var(--accent)','stroke-width':2});
   });
 })();
 
